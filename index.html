@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventarizatsiya - 32 Dars</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #D2FF28;
+            --dark-bg: #111311;
+            --card-bg: #1B1E1C;
+            --text-white: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.7);
+        }
+
+        body {
+            background-color: var(--dark-bg) !important;
+            color: var(--text-white);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+            background-image: radial-gradient(circle at 10% 20%, rgba(210, 255, 40, 0.12) 0%, transparent 60%) !important;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .slides-container {
+            width: 100vw;
+            height: 100vh;
+            max-width: 100%;
+            max-height: 100%;
+            aspect-ratio: auto;
+            border: none !important;
+            box-shadow: none !important;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h2 {
+            font-size: 2.6rem !important;
+            color: var(--primary-green) !important;
+            display: inline-block;
+            border-bottom: 2px solid var(--primary-green) !important;
+            padding-bottom: 8px;
+            margin: 0;
+            font-weight: 800;
+        }
+
+        .highlight {
+            color: var(--primary-green);
+            font-weight: 700;
+        }
+
+        .glass-box {
+            background: var(--card-bg) !important;
+            border: 1px solid rgba(210, 255, 40, 0.12) !important;
+            border-radius: 16px !important;
+            padding: 35px 45px !important;
+            width: 100%;
+            max-width: 1050px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        .calc-step {
+            background: #232623 !important;
+            border-left: 3px solid var(--primary-green) !important;
+            padding: 18px 22px !important;
+            margin-bottom: 16px;
+            border-radius: 8px !important;
+            font-size: 1.2rem !important;
+            line-height: 1.5;
+            text-align: left;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .calc-step-title {
+            font-size: 1.25rem;
+            color: var(--primary-green);
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .section-header {
+            font-size: 2.8rem !important;
+            font-weight: 800;
+            text-align: center;
+            color: var(--primary-green);
+            margin-bottom: 15px;
+        }
+
+        .topic-subheader {
+            font-size: 2.3rem !important;
+            font-weight: 700;
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 10px;
+            font-size: 1.15rem;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        th {
+            background-color: rgba(210, 255, 40, 0.1);
+            color: var(--primary-green);
+            font-weight: 700;
+        }
+
+        .pravodka-row {
+            display: grid;
+            grid-template-columns: 80px 100px 100px 1fr;
+            gap: 15px;
+            align-items: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(210, 255, 40, 0.05);
+        }
+
+        .debit-badge {
+            background: rgba(210, 255, 40, 0.15);
+            color: var(--primary-green);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .credit-badge {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .controls {
+            position: absolute !important;
+            bottom: 30px !important;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .control-btn {
+            background: #0f1310 !important;
+            border: 1.5px solid rgba(210, 255, 40, 0.4) !important;
+            color: var(--primary-green) !important;
+            width: 45px !important;
+            height: 45px !important;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .slide {
+            padding: 40px !important;
+            display: none;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .account-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 20px;
+            background: rgba(210, 255, 40, 0.05);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .account-number {
+            font-family: 'Courier New', monospace;
+            font-weight: 800;
+            color: var(--primary-green);
+            font-size: 1.4rem;
+            min-width: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slides-container">
+        <!-- Slide 1: Intro -->
+        <div class="slide active" id="slide-1">
+            <div class="section-header">4-BO'LIM: AKTIVLAR HISOBI</div>
+            <div class="section-header" style="font-size: 1.8rem !important; opacity: 0.8; margin-top: -10px;">32-dars
+            </div>
+            <h1 class="topic-subheader" style="line-height: 1.4; margin-top: 30px; font-size: 3.5rem !important;">
+                Inventarizatsiya (Qayta hisob)<br>
+            </h1>
+            <div style="text-align: center; margin-top: 40px;">
+                <p style="font-size: 1.6rem; color: var(--primary-green); margin: 15px 0;">✓ Inventarizatsiya
+                    standartlari</p>
+                <p style="font-size: 1.6rem; color: var(--primary-green); margin: 15px 0;">✓ Rasmiylashtiradigan
+                    hujjatlar</p>
+                <p style="font-size: 1.6rem; color: var(--primary-green); margin: 15px 0;">✓ Faqulotda foyda va zarar
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Inventarizatsiya standartlari -->
+        <div class="slide" id="slide-2">
+            <div class="title-wrapper" style="text-align: center; margin-bottom: 30px;">
+                <h2>Inventarizatsiya standartlari (BHMS 19)</h2>
+            </div>
+            <div class="glass-box" style="max-width: 900px;">
+                <p style="font-size: 1.25rem; margin-bottom: 25px; line-height: 1.6;">O‘zbekiston Respublikasi
+                    Buxgalteriya hisobining milliy standarti (BHMS) №19 "Inventarizatsiyani tashkil etish va o‘tkazish"
+                    asosiy tartibga soluvchi hujjat hisoblanadi.</p>
+
+                <div class="calc-step">
+                    <span class="calc-step-title">Majburiy holatlar:</span>
+                    <ul style="margin-top: 10px; padding-left: 20px; line-height: 1.8;">
+                        <li>Yillik moliyaviy hisobotni tuzishdan oldin.</li>
+                        <li>Moddiy javobgar shaxslar almashganda.</li>
+                        <li>Mulk o‘g‘irlanganligi yoki shikastlanganligi aniqlanganda.</li>
+                        <li>Korxona qayta tashkil etilganda yoki tugatilganda.</li>
+                    </ul>
+                </div>
+
+                <div class="calc-step">
+                    <span class="calc-step-title">Muddatlar:</span>
+                    Rahbar buyrug'i bilan belgilanadi, lekin yilda kamida bir marta o‘tkazilishi shart.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Hujjatlar -->
+        <div class="slide" id="slide-3">
+            <div class="title-wrapper" style="text-align: center; margin-bottom: 30px;">
+                <h2>Inventarizatsiyani rasmiylashtiradigan hujjatlar</h2>
+            </div>
+            <div class="glass-box">
+                <p style="font-size: 1.25rem; margin-bottom: 20px;">Jarayon davomida quyidagi hujjatlar ketma-ketligi
+                    shakllantiriladi:</p>
+
+                <div class="calc-step">
+                    <span class="calc-step-title">1. Buyruq:</span>
+                    Inventarizatsiya komissiyasi tarkibi va muddatlarini belgilash.
+                </div>
+
+                <div class="calc-step">
+                    <span class="calc-step-title">2. Inventarizatsiya ro‘yxati (Инвентаризационная опись):</span>
+                    Tovar-moddiy boyliklarning (TMB) haqiqiy miqdori yozib boriladi.
+                </div>
+
+                <div class="calc-step">
+                    <span class="calc-step-title">3. Solishtirma qaydnomalar (Сличительная ведомость):</span>
+                    Haqiqiy qoldiq va buxgalteriya qoldig‘i o‘rtasidagi farqlar (kamomad yoki ortiqcha) aks ettiriladi.
+                </div>
+
+                <div class="calc-step">
+                    <span class="calc-step-title">4. Komissiya bayonnomasi:</span>
+                    Natijalarni tasdiqlash va aybdorlarni/sabablarni aniqlash.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Favqulodda foyda va zarar -->
+        <div class="slide" id="slide-4">
+            <div class="title-wrapper" style="text-align: center; margin-bottom: 30px;">
+                <h2>Faqulotda foyda va zararlar</h2>
+            </div>
+            <div class="glass-box">
+                <p style="font-size: 1.2rem; margin-bottom: 20px; font-weight: 600; color: var(--primary-green);">(BHMS
+                    19 va 2-sonli BHMS)</p>
+                <p style="font-size: 1.25rem; margin-bottom: 25px;">Favqulodda holatlar (yong‘in, suv toshqini, tabiiy
+                    ofatlar) natijasidagi yo‘qotishlar alohida tartibda ko‘rib chiqiladi:</p>
+
+                <div class="calc-step" style="border-left-color: #ff4444 !important;">
+                    <span class="calc-step-title" style="color: #ff4444;">Favqulodda zarar:</span>
+                    Agar mulk ofat natijasida yo‘qolsa, u 9700-hisobvaraqlarda ("Favqulodda zararlar") aks ettiriladi.
+                </div>
+
+                <div class="calc-step" style="border-left-color: #00ccff !important;">
+                    <span class="calc-step-title" style="color: #00ccff;">Sug‘urta qoplamasi:</span>
+                    Agar mulk sug‘urtalangan bo‘lsa, sug‘urta kompaniyasidan kelgan mablag‘ Favqulodda foyda (daromad)
+                    sifatida tan olinishi mumkin.
+                </div>
+
+                <div class="calc-step">
+                    <span class="calc-step-title">Hujjatlashtirish:</span>
+                    Favqulodda holatni tasdiqlovchi dalolatnoma (Masalan, FVV xulosasi) majburiydir.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Turlari -->
+        <div class="slide" id="slide-5">
+            <div class="title-wrapper" style="text-align: center; margin-bottom: 30px;">
+                <h2>Inventarizatsiya turlari (Amaliy tasnif)</h2>
+            </div>
+            <div class="glass-box">
+                <p style="font-size: 1.25rem; margin-bottom: 25px;">Inventarizatsiya faqat yilda bir marta bo‘lmaydi, u
+                    quyidagicha farqlanadi:</p>
+
+                <div class="calc-step">
+                    <span class="calc-step-title">To‘liq inventarizatsiya:</span>
+                    Korxonadagi barcha aktivlar va majburiyatlarni (pul, TMB, asosiy vositalar, qarzdorliklar) qamrab
+                    oladi.
+                </div>
+
+                <div class="calc-step">
+                    <span class="calc-step-title">Qisman (tanlanma) inventarizatsiya:</span>
+                    Faqat ma’lum bir ombor yoki ma’lum turdagi tovarlar bo‘yicha o‘tkaziladi.
+                </div>
+
+                <div class="calc-step">
+                    <span class="calc-step-title">Rejali:</span>
+                    Oldindan tasdiqlangan grafik asosida.
+                </div>
+
+                <div class="calc-step">
+                    <span class="calc-step-title">To‘satdan (vnezapnaya):</span>
+                    Moddiy javobgar shaxsni ogohlantirmasdan, intizomni tekshirish uchun o‘tkaziladi.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Komissiya -->
+        <div class="slide" id="slide-6">
+            <div class="title-wrapper" style="text-align: center; margin-bottom: 30px;">
+                <h2>BHMS 19 bo‘yicha Komissiya mas’uliyati</h2>
+            </div>
+            <div class="glass-box">
+                <p style="font-size: 1.25rem; margin-bottom: 25px;">Inventarizatsiya natijasi qonuniy kuchga ega
+                    bo‘lishi uchun komissiya tarkibi muhim:</p>
+
+                <div class="calc-step">
+                    <span class="calc-step-title">Komissiya tarkibi:</span>
+                    Rahbar, bosh buxgalter, mutaxassislar (muhandis, texnolog) va jamoatchilik vakillari.
+                </div>
+
+                <div class="calc-step" style="border-left-color: #ffaa00 !important;">
+                    <span class="calc-step-title" style="color: #ffaa00;">Muhim qoida:</span>
+                    Agar inventarizatsiya jarayonida komissiyaning loaqal bir a’zosi qatnashmasa, inventarizatsiya
+                    natijalari haqiqiy emas deb topilishi mumkin.
+                </div>
+
+                <div class="calc-step">
+                    <span class="calc-step-title">Moddiy javobgar shaxs:</span>
+                    U komissiya a’zosi bo‘la olmaydi, lekin jarayonda shaxsan ishtirok etishi shart.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Raqamlashtirish -->
+        <div class="slide" id="slide-7">
+            <div class="title-wrapper" style="text-align: center; margin-bottom: 30px;">
+                <h2>Inventarizatsiyada raqamlashtirish</h2>
+            </div>
+            <div class="glass-box">
+                <p style="font-size: 1.2rem; margin-bottom: 20px; font-weight: 600; color: var(--primary-green);">
+                    (Zamonaviy yondashuv)</p>
+                <p style="font-size: 1.25rem; margin-bottom: 25px;">Bugungi kunda "Qayta hisob" jarayonini tezlashtirish
+                    usullari:</p>
+
+                <div class="calc-step">
+                    <span class="calc-step-title">Shtrix-kod (Barcoding):</span>
+                    TMBni skaner qilish orqali xatolarni kamaytirish.
+                </div>
+
+                <div class="calc-step">
+                    <span class="calc-step-title">RFID texnologiyasi:</span>
+                    Masofadan turib tovarlarni sanash.
+                </div>
+
+                <div class="calc-step">
+                    <span class="calc-step-title">Terminal Sbora Dannix (TSD):</span>
+                    Ma'lumotlarni to'g'ridan-to'g'ri 1C yoki boshqa ERP tizimlariga (masalan, siz ishlayotgan tahliliy
+                    tizimlarga) integratsiya qilish.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Natijalar -->
+        <div class="slide" id="slide-8">
+            <div class="title-wrapper" style="text-align: center; margin-bottom: 30px;">
+                <h2>32-darsdan olingan natijalar</h2>
+            </div>
+            <div class="glass-box">
+                <div class="calc-step">
+                    <span class="calc-step-title">1. Inventarizatsiya mohiyati:</span>
+                    Mulk haqiqiy qoldig'ini buxgalteriya yozuvlariga solishtirish va to'g'riligini ta'minlash jarayoni.
+                </div>
+                <div class="calc-step">
+                    <span class="calc-step-title">2. Asosiy ehtiyot choralari:</span>
+                    Jarayonda moddiy javobgar shaxs ishtirok etishi shart, komissiya a'zolarining to'liq qatnashishi
+                    muhim.
+                </div>
+                <div class="calc-step">
+                    <span class="calc-step-title">3. Rasmiylashtirish tartibi:</span>
+                    Jarayon mutlaqo buyruq asosida boshlanib, dalolatnomalar to'ldiriladi va aniqlangan farqlar
+                    buxgalteriyada aks ettiriladi.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Yakun -->
+        <div class="slide" id="slide-9">
+            <h1
+                style="text-align: center; line-height: 1.3; font-size: 3.5rem; letter-spacing: -1px; margin-top: 100px;">
+                O'SISHDAN<br>
+                <span style="color: var(--primary-green);">TO'XTAMANG!</span>
+                🚀
+            </h1>
+            <p
+                style="font-size: 1.3rem; color: var(--primary-green); margin-top: 25px; opacity: 0.6; text-align: center;">
+                AMALIYOTDA SINAB KO'RING</p>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="controls">
+        <div class="control-btn" onclick="prevSlide()">❮</div>
+        <div class="control-btn" onclick="nextSlide()">❯</div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Inline slide script fallback for preview
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+            updateProgressBar();
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) {
+                const progress = ((currentSlide + 1) / slides.length) * 100;
+                progressBar.style.width = progress + '%';
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+    </script>
+</body>
+
+</html>
